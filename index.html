@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,46 +13,22 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f8f9fa;
+            background-color: #f2f2f2;
             font-family: Arial, sans-serif;
-            position: relative;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-
-        /* Background desfocado da revista */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover;
-            background-position: center;
-            filter: blur(20px);
-            z-index: -1;
-            opacity: 0.3;
-            transition: background-image 0.3s ease;
         }
 
         h1 {
             margin: 20px;
             color: #333;
-            text-align: center;
-            z-index: 1;
         }
 
         .pdf-container {
             width: 80%;
-            height: 80vh;
+            height: 70vh;
             border: 2px solid #ccc;
             overflow: hidden;
             position: relative;
             background-color: white;
-            z-index: 1;
         }
 
         iframe {
@@ -61,119 +38,118 @@
             cursor: zoom-in;
         }
 
-        .zoomed {
-            cursor: move;
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin: 20px 0;
         }
 
         .nav-button {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
             padding: 10px;
             background-color: #007bff;
             color: white;
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .nav-button:hover {
             background-color: #0056b3;
         }
 
-        .nav-button.left {
-            left: 0;
-            border-radius: 0 5px 5px 0;
-        }
-
-        .nav-button.right {
-            right: 0;
-            border-radius: 5px 0 0 5px;
+        #selectorContainer {
+            margin-bottom: 10px;
         }
 
         #pdfName {
             font-size: 1.2rem;
             font-weight: bold;
         }
-
-        #selector {
-            margin-bottom: 10px;
-            z-index: 1;
-        }
-
-        /* Para dispositivos móveis */
-        @media (max-width: 768px) {
-            .nav-button {
-                width: 40px;
-                height: 60px;
-                padding: 5px;
-                font-size: 0.8rem;
-            }
-        }
     </style>
 </head>
+
 <body>
 
-    <h1 id="pdfName">Revista 1</h1>
+    <h1 id="pdfName">Selecione uma revista</h1>
 
-    <!-- Seletor de revista -->
-    <select id="selector">
-        <!-- Options serão adicionadas dinamicamente -->
+    <!-- Seletor de revista principal -->
+    <div id="selectorContainer">
+        <select id="mainSelector">
+            <option value="dragaoBrasil">Dragão Brasil Físicas</option>
+            <option value="dueloDragoes">Duelo de Dragões</option>
+        </select>
+    </div>
+
+    <!-- Seletor de revistas específicas -->
+    <select id="secondarySelector">
+        <!-- As opções serão atualizadas dinamicamente -->
     </select>
+
+    <div class="controls">
+        <div id="prevButton" class="nav-button">Anterior</div>
+        <div id="nextButton" class="nav-button">Próxima</div>
+    </div>
 
     <!-- Contêiner para o PDF -->
     <div class="pdf-container" id="pdfContainer">
-        <iframe id="pdfViewer" src="https://drive.google.com/file/d/1duKEDzehzXfPV9qb5_S1-UmiE1VRD349/preview" allow="autoplay"></iframe>
+        <iframe id="pdfViewer" src="" allow="autoplay"></iframe>
     </div>
 
-    <!-- Botões de navegação entre revistas -->
-    <div id="prevButton" class="nav-button left">Anterior</div>
-    <div id="nextButton" class="nav-button right">Próxima</div>
 
     <script>
         const pdfViewer = document.getElementById('pdfViewer');
         const pdfName = document.getElementById('pdfName');
-        const selector = document.getElementById('selector');
+        const mainSelector = document.getElementById('mainSelector');
+        const secondarySelector = document.getElementById('secondarySelector');
         const prevButton = document.getElementById('prevButton');
         const nextButton = document.getElementById('nextButton');
-        const body = document.body;
 
-        const pdfs = [
-            { name: 'Dragon 01', url: 'https://drive.google.com/file/d/1duKEDzehzXfPV9qb5_S1-UmiE1VRD349/preview', background: 'https://via.placeholder.com/1500x800?text=Dragon+01' },
-            { name: 'Dragon 02', url: 'https://drive.google.com/file/d/1bEZtxv7bfFEM6Il7YGXQk4tOUUr8zXmh/preview', background: 'https://via.placeholder.com/1500x800?text=Dragon+02' },
-            { name: 'Dragão Brasil 03', url: 'https://drive.google.com/file/d/1MFeuaOFtmJNnhNQrTr0iiYNP9qx2faNp/preview', background: 'https://via.placeholder.com/1500x800?text=Dragao+Brasil+03' },
-            { name: 'Dragão Brasil 04', url: 'https://drive.google.com/file/d/1zQXQ78Yv9maOVHRwJTvvLtO0_zVh_pDO/preview', background: 'https://via.placeholder.com/1500x800?text=Dragao+Brasil+04' },
-            { name: 'Dragão Brasil 05', url: 'https://drive.google.com/file/d/1f8ApwCYdYSkL1ax1O6uWjMZRvSdLxV9d/preview', background: 'https://via.placeholder.com/1500x800?text=Dragao+Brasil+05' }
-        ];
+        const revistas = {
+            dragaoBrasil: [
+                { name: 'Dragão Brasil 01', url: 'https://drive.google.com/file/d/1duKEDzehzXfPV9qb5_S1-UmiE1VRD349/preview' },
+                { name: 'Dragão Brasil 02', url: 'https://drive.google.com/file/d/1bEZtxv7bfFEM6Il7YGXQk4tOUUr8zXmh/preview' },
+                { name: 'Dragão Brasil 03', url: 'https://drive.google.com/file/d/1MFeuaOFtmJNnhNQrTr0iiYNP9qx2faNp/preview' },
+                { name: 'Dragão Brasil 04', url: 'https://drive.google.com/file/d/1zQXQ78Yv9maOVHRwJTvvLtO0_zVh_pDO/preview' },
+                { name: 'Dragão Brasil 05', url: 'https://drive.google.com/file/d/1f8ApwCYdYSkL1ax1O6uWjMZRvSdLxV9d/preview' }
+            ],
+            dueloDragoes: [
+                { name: '01 - Inverno Inesperado', url: 'https://drive.google.com/file/d/1MEAg-CivwrtXVK2RFGX6IUzIhvcTu7va/preview' }
+            ]
+        };
 
         let currentPdfIndex = 0;
+        let currentCategory = 'dragaoBrasil';
 
-        // Função para carregar o PDF e o background
+        // Função para carregar o PDF
         function loadPdf(index) {
-            const selectedPdf = pdfs[index];
+            const selectedPdf = revistas[currentCategory][index];
             pdfViewer.src = selectedPdf.url;
             pdfName.textContent = selectedPdf.name;
-            body.style.backgroundImage = `url(${selectedPdf.background})`;  // Atualiza o background corretamente
         }
 
-        // Preencher seletor de PDF automaticamente
-        function populateSelector() {
-            pdfs.forEach((pdf, index) => {
+        // Atualiza o seletor de revistas secundário
+        function updateSecondarySelector() {
+            secondarySelector.innerHTML = '';
+            revistas[currentCategory].forEach((revista, index) => {
                 const option = document.createElement('option');
-                option.value = index + 1;
-                option.textContent = pdf.name;
-                selector.appendChild(option);
+                option.value = index;
+                option.textContent = revista.name;
+                secondarySelector.appendChild(option);
             });
+            loadPdf(0);
         }
-        populateSelector();
 
-        // Carregar o PDF selecionado no seletor
-        selector.addEventListener('change', (e) => {
-            currentPdfIndex = parseInt(e.target.value) - 1;
+        // Mudança no seletor principal
+        mainSelector.addEventListener('change', (e) => {
+            currentCategory = e.target.value;
+            currentPdfIndex = 0;
+            updateSecondarySelector();
+        });
+
+        // Mudança no seletor secundário
+        secondarySelector.addEventListener('change', (e) => {
+            currentPdfIndex = parseInt(e.target.value);
             loadPdf(currentPdfIndex);
         });
 
@@ -182,19 +158,23 @@
             if (currentPdfIndex > 0) {
                 currentPdfIndex--;
                 loadPdf(currentPdfIndex);
-                selector.value = currentPdfIndex + 1;
+                secondarySelector.value = currentPdfIndex;
             }
         });
 
         // Botão de próximo PDF
         nextButton.addEventListener('click', () => {
-            if (currentPdfIndex < pdfs.length - 1) {
+            if (currentPdfIndex < revistas[currentCategory].length - 1) {
                 currentPdfIndex++;
                 loadPdf(currentPdfIndex);
-                selector.value = currentPdfIndex + 1;
+                secondarySelector.value = currentPdfIndex;
             }
         });
+
+        // Inicializar
+        updateSecondarySelector();
     </script>
 
 </body>
+
 </html>
