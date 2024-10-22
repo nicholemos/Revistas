@@ -14,6 +14,7 @@
             margin: 0;
             background-color: #f8f9fa;
             font-family: Arial, sans-serif;
+            position: relative;
         }
 
         h1 {
@@ -42,25 +43,34 @@
             cursor: move;
         }
 
-        .controls {
-            display: flex;
-            justify-content: space-between;
-            width: 90%;
-            max-width: 800px;
-            margin-bottom: 10px;
-        }
-
         .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
             padding: 10px;
             background-color: #007bff;
             color: white;
             cursor: pointer;
             border-radius: 5px;
             transition: background-color 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .nav-button:hover {
             background-color: #0056b3;
+        }
+
+        .nav-button.left {
+            left: 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .nav-button.right {
+            right: 0;
+            border-radius: 5px 0 0 5px;
         }
 
         #pdfName {
@@ -70,6 +80,16 @@
 
         #selector {
             margin-bottom: 10px;
+        }
+
+        /* Para dispositivos móveis */
+        @media (max-width: 768px) {
+            .nav-button {
+                width: 40px;
+                height: 60px;
+                padding: 5px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -88,10 +108,8 @@
     </div>
 
     <!-- Botões de navegação entre revistas -->
-    <div class="controls">
-        <div id="prevButton" class="nav-button">Anterior</div>
-        <div id="nextButton" class="nav-button">Próxima</div>
-    </div>
+    <div id="prevButton" class="nav-button left">Anterior</div>
+    <div id="nextButton" class="nav-button right">Próxima</div>
 
     <script>
         const pdfViewer = document.getElementById('pdfViewer');
