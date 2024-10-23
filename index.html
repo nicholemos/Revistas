@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leitor de Revistas Online</title>
+    <title>Repositório RPG</title>
     <style>
         body {
             display: flex;
@@ -66,18 +66,35 @@
             font-size: 1.2rem;
             font-weight: bold;
         }
+
+        #downloadButton {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        #downloadButton:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 
 <body>
 
-    <h1 id="pdfName">Selecione uma revista</h1>
+    <h1>Repositório RPG</h1>
 
     <!-- Seletor de revista principal -->
     <div id="selectorContainer">
         <select id="mainSelector">
+            <option value="T20JogodoAno">T20 Jogo do Ano</option>
             <option value="dragaoBrasil">Dragão Brasil Físicas</option>
             <option value="dueloDragoes">Duelo de Dragões</option>
+            <option value="LivrosJogos">Livros Jogos Solo</option>
+            <option value="T20Antigo">T20 Antigo</option>
         </select>
     </div>
 
@@ -88,6 +105,7 @@
 
     <div class="controls">
         <div id="prevButton" class="nav-button">Anterior</div>
+        <h2 id="pdfName">Selecione uma revista</h2>
         <div id="nextButton" class="nav-button">Próxima</div>
     </div>
 
@@ -96,6 +114,8 @@
         <iframe id="pdfViewer" src="" allow="autoplay"></iframe>
     </div>
 
+    <!-- Botão de download -->
+    <a id="downloadButton" href="" download>Download</a>
 
     <script>
         const pdfViewer = document.getElementById('pdfViewer');
@@ -104,6 +124,7 @@
         const secondarySelector = document.getElementById('secondarySelector');
         const prevButton = document.getElementById('prevButton');
         const nextButton = document.getElementById('nextButton');
+        const downloadButton = document.getElementById('downloadButton');
 
         const revistas = {
             dragaoBrasil: [
@@ -114,18 +135,48 @@
                 { name: 'Dragão Brasil 05', url: 'https://drive.google.com/file/d/1f8ApwCYdYSkL1ax1O6uWjMZRvSdLxV9d/preview' }
             ],
             dueloDragoes: [
-                { name: '01 - Inverno Inesperado', url: 'https://drive.google.com/file/d/1MEAg-CivwrtXVK2RFGX6IUzIhvcTu7va/preview' }
+                { name: '01 - Inverno Inesperado', url: 'https://drive.google.com/file/d/1MEAg-CivwrtXVK2RFGX6IUzIhvcTu7va/preview' },
+                { name: '02 - Umchama Escarcha', url: 'https://drive.google.com/file/d/18AJ1rNj3z5sf-ApCMzBZORC5DkBqXjud/preview' },
+                { name: '03 - Maldição Álgida', url: 'https://drive.google.com/file/d/1F3Dj3x0drvq0-p9JVg4G1T-jjVDpbC16/preview' },
+                { name: '04 - Resposta Fria', url: 'https://drive.google.com/file/d/1vjdCUlkUHlDVq92jjhAkianB76ucIwpw/preview' },
+                { name: '05 - Víbora Enjaulada', url: 'https://drive.google.com/file/d/1d_iIbhTeeIEHbSlwpAD9yUwSHS7lx2B-/preview' }
+            ],
+            LivrosJogos: [
+                { name: 'Ficha em PDF ', url: 'https://drive.google.com/file/d/1ImTunlj61XpGsdY4Yikh4obC9-NEViFi/preview' },
+                { name: 'Ataque a Khalifor ', url: 'https://drive.google.com/file/d/1l4WFwW5nAXJHNbIBoOuhokYFEcf6yrnu/preview' },
+                { name: 'O Labirinto de Tapista ', url: 'https://drive.google.com/file/d/1Lgl39COioe82RNffEfRVH_-AvsXLk-JM/preview' },
+                { name: 'O Senhor das Sombras ', url: 'https://drive.google.com/file/d/1qK19d5OenPlselPS1nTWZu5BnqQZUljT/preview' }
+
+            ],
+            T20Antigo: [
+                { name: 'T20 Livro Básico', url: 'https://drive.google.com/file/d/1dVXCaH42i7K7-wrWQw0CD1acAV9hNsQ9/preview' },
+                { name: 'T20 - Distinções', url: 'https://drive.google.com/file/d/1nqDOlXAVcKTyna2QY1n61pc4Se8NfeJh/preview' },
+                { name: 'T20 - Guia de NPCs', url: 'https://drive.google.com/file/d/1n4OmzF682jYScqbV3Gv0zDG3PAdU93Ur/preview' },
+                { name: 'T20 -Coração de Rubi', url: 'https://drive.google.com/file/d/1PN89xH3O7a7jg78EeyVbsfOqYBhP7sRI/preview' }
+            ],
+            T20JogodoAno: [
+                { name: 'T20 Só Aventuras', url: 'https://drive.google.com/file/d/1jDwsOnof4bcAciF2-5YnHH_JQm3Johem/preview' },
+                { name: 'T20 - Livro Básico Jogo do Ano', url: 'https://drive.google.com/file/d/1becqXvMQiIkMqCIN4NmYqgDJ2C6pJUDI/preview' },
+                { name: 'T20 - Atlas de Arton', url: 'https://drive.google.com/file/d/1UzHi9oLGmRjVUOmWIBgO0zKCBZzRIBuT/preview' },
+                { name: 'T20 - Ameaças de Arton', url: 'https://drive.google.com/file/d/1IYT4roMPz2Amo39DfPWWYgRn3w745rj4/preview' },
+                { name: 'T20 - Guia de NPCs', url: 'https://drive.google.com/file/d/14OaeexVIHjgAttma35dVZzlzuqRjlO5j/preview' },
+                { name: 'T20 - Jornada Heroica - Fim dos Tempos Arco 1', url: 'https://drive.google.com/file/d/1YArlRlAluWjppCYROp0_PikbXtdWkB7V/preview' },
+                { name: 'T20 -Coração de Rubi', url: 'https://drive.google.com/file/d/1sam8EpEsTkHg8SLFRyr3ETO3LY3PE_Pr/preview' },
+                { name: 'Prévia - Deuses e Heróis', url: 'https://drive.google.com/file/d/1-493trfQhtYU6cxxf5-08cb7eUEcRurM/preview' },
+                { name: 'Prévia - Guerra Artoniana - Jornada Heroica', url: 'https://drive.google.com/file/d/11iMYa8S9S1iOu4dzWH13fQlD5VZZnkHR/preview' }
             ]
+
         };
 
         let currentPdfIndex = 0;
-        let currentCategory = 'dragaoBrasil';
+        let currentCategory = 'T20JogodoAno';
 
-        // Função para carregar o PDF
+        // Função para carregar o PDF e a URL de download
         function loadPdf(index) {
             const selectedPdf = revistas[currentCategory][index];
             pdfViewer.src = selectedPdf.url;
             pdfName.textContent = selectedPdf.name;
+            downloadButton.href = selectedPdf.downloadUrl;
         }
 
         // Atualiza o seletor de revistas secundário
