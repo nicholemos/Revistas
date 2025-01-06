@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="previewport" content="width=device-width, initial-scale=1.0">
     <title>Repositório RPG</title>
     <style>
         body {
@@ -114,14 +114,14 @@
 
     <!-- Contêiner para o PDF -->
     <div class="pdf-container" id="pdfContainer">
-        <iframe id="pdfViewer" src="" allow="autoplay"></iframe>
+        <iframe id="pdfpreviewer" src="" allow="autoplay"></iframe>
     </div>
 
     <!-- Botão de download -->
     <a id="downloadButton" href="" download>Download</a>
 
     <script>
-        const pdfViewer = document.getElementById('pdfViewer');
+        const pdfpreviewer = document.getElementById('pdfpreviewer');
         const pdfName = document.getElementById('pdfName');
         const mainSelector = document.getElementById('mainSelector');
         const secondarySelector = document.getElementById('secondarySelector');
@@ -131,24 +131,29 @@
 
         const revistas = {
             dragaoBrasil: [
-                { name: 'Dragão Brasil 01', url: 'https://drive.google.com/file/d/1duKEDzehzXfPV9qb5_S1-UmiE1VRD349/preview' },
-                { name: 'Dragão Brasil 02', url: 'https://drive.google.com/file/d/1bEZtxv7bfFEM6Il7YGXQk4tOUUr8zXmh/preview' },
-                { name: 'Dragão Brasil 03', url: 'https://drive.google.com/file/d/1MFeuaOFtmJNnhNQrTr0iiYNP9qx2faNp/preview' },
-                { name: 'Dragão Brasil 04', url: 'https://drive.google.com/file/d/1zQXQ78Yv9maOVHRwJTvvLtO0_zVh_pDO/preview' },
-                { name: 'Dragão Brasil 05', url: 'https://drive.google.com/file/d/1f8ApwCYdYSkL1ax1O6uWjMZRvSdLxV9d/preview' }
+                { name: 'Dragão Brasil 01', url: 'https://drive.google.com/file/d/1jURLPtWC9X2PXvQIz6Do9tBeknjmTmxP/preview' },
+                { name: 'Dragão Brasil 02', url: 'https://drive.google.com/file/d/1Zhc8irgGBOdepc4gxNWtZl6-lAMl9jlh/preview' },
+                { name: 'Dragão Brasil 03', url: 'https://drive.google.com/file/d/1JyEEA6Hvl2DMpu30JEF45F3c8RyJY2dT/preview' },
+                { name: 'Dragão Brasil 04', url: 'https://drive.google.com/file/d/1TCIfD7CQSxcNCe4Q2B6qWmOvXeVQrEvx/preview' },
+                { name: 'Dragão Brasil 05', url: 'https://drive.google.com/file/d/15q-lKSnaJT40-l0vxmm1fCtIJAMzcXO-/preview' }
             ],
             dragaoDigital: [
-                { name: 'Dragão Brasil 207', url: 'https://drive.google.com/file/d/1bsrt-gHXMVyLmJXoXWXODn9ZxmYsa98D/preview' },
-                { name: 'Dragão Brasil 206', url: 'https://drive.google.com/file/d/1T6lAWyUGRYEpEW0A5WxA_QUtfAfinCe5/preview' },
-                { name: 'Dragão Brasil 205', url: 'https://drive.google.com/file/d/16dmAH1ufAmptQffH-sa9ikqmV3_vB9pg/preview' }
+                { name: 'Dragão Brasil 210', url: 'https://drive.google.com/file/d/1cFULR2jkVNAP8HmjrvTihK6SLOeOGWKS/preview' },
+                { name: 'Dragão Brasil 209', url: 'https://drive.google.com/file/d/1H4CAgafforWn-5SUOVep-9nPV0sJO-sw/preview' },
+                { name: 'Dragão Brasil 208', url: 'https://drive.google.com/file/d/19YKWLLfGaWi9k5JTyXT0wXfNASWeejTb/preview' },
+                { name: 'Dragão Brasil 207', url: 'https://drive.google.com/file/d/1CpJTWJni_vFS8Pufl5ldQ2IW2UAKZ0TM/preview' },
+                { name: 'Dragão Brasil 206', url: 'https://drive.google.com/file/d/1mC-EqMDD7kBsELkPG1ubXmE9wdakOhDf/preview' },
+                { name: 'Dragão Brasil 205', url: 'https://drive.google.com/file/d/1dI9ivKXgmlG1rMXI_64u3FbkHsaUGCDe/preview' }
               
             ],
             dueloDragoes: [
-                { name: '01 - Inverno Inesperado', url: 'https://drive.google.com/file/d/1MEAg-CivwrtXVK2RFGX6IUzIhvcTu7va/preview' },
-                { name: '02 - Umchama Escarcha', url: 'https://drive.google.com/file/d/18AJ1rNj3z5sf-ApCMzBZORC5DkBqXjud/preview' },
-                { name: '03 - Maldição Álgida', url: 'https://drive.google.com/file/d/1F3Dj3x0drvq0-p9JVg4G1T-jjVDpbC16/preview' },
-                { name: '04 - Resposta Fria', url: 'https://drive.google.com/file/d/1vjdCUlkUHlDVq92jjhAkianB76ucIwpw/preview' },
-                { name: '05 - Víbora Enjaulada', url: 'https://drive.google.com/file/d/1d_iIbhTeeIEHbSlwpAD9yUwSHS7lx2B-/preview' }
+                { name: '01 - Inverno Inesperado', url: 'https://drive.google.com/file/d/1T8BI9d1qtGBhT7esc4VJ7mrt0ZA7ziYK/preview' },
+                { name: '02 - Umchama Escarcha', url: 'https://drive.google.com/file/d/1cWKH9X090ql44dt4xrFuyISnTe7ZTU-s/preview' },
+                { name: '03 - Maldição Álgida', url: 'https://drive.google.com/file/d/1QdhdM6HJzaocE7jSpftL2GX1z_FAvfnm/preview' },
+                { name: '04 - Resposta Fria', url: 'https://drive.google.com/file/d/1VjmAVg69pY_1cj_8q8TZ1fqceqeyQRXx/preview' },
+                { name: '05 - Víbora Enjaulada', url: 'https://drive.google.com/file/d/1VRf6UMAuSUoFafIzvpk3feISP8Nkr4DC/preview' },
+                { name: '06 - Víbora Enjaulada', url: 'https://drive.google.com/file/d/1QkEZOhFgXZ31WcZF7InIpcRyLOZWz3bp/preview' }
+                { name: '09 - Víbora Enjaulada', url: 'https://drive.google.com/file/d/1r_wDZ9pliyYXUMDqKYsAma-TdSHLCjB7/preview' }
             ],
             LivrosJogos: [
                 { name: 'Ficha em PDF ', url: 'https://drive.google.com/file/d/1ImTunlj61XpGsdY4Yikh4obC9-NEViFi/preview' },
@@ -183,14 +188,14 @@
             
             T20JogodoAno: [
                 { name: 'T20 - Livro Básico Jogo do Ano', url: 'https://drive.google.com/file/d/1uCoH6rl0vLPXi2Cy_Qi9KNJADHXvCkqM/preview' },
-                { name: 'T20 Só Aventuras', url: 'https://drive.google.com/file/d/1jDwsOnof4bcAciF2-5YnHH_JQm3Johem/preview' },
-                { name: 'T20 - Atlas de Arton', url: 'https://drive.google.com/file/d/1UzHi9oLGmRjVUOmWIBgO0zKCBZzRIBuT/preview' },
-                { name: 'T20 - Ameaças de Arton', url: 'https://drive.google.com/file/d/1IYT4roMPz2Amo39DfPWWYgRn3w745rj4/preview' },
-                { name: 'T20 - Guia de NPCs', url: 'https://drive.google.com/file/d/14OaeexVIHjgAttma35dVZzlzuqRjlO5j/preview' },
-                { name: 'T20 - Jornada Heroica - Fim dos Tempos Arco 1', url: 'https://drive.google.com/file/d/1YArlRlAluWjppCYROp0_PikbXtdWkB7V/preview' },
-                { name: 'T20 -Coração de Rubi', url: 'https://drive.google.com/file/d/1sam8EpEsTkHg8SLFRyr3ETO3LY3PE_Pr/preview' },
-                { name: 'Prévia - Deuses e Heróis', url: 'https://drive.google.com/file/d/1-493trfQhtYU6cxxf5-08cb7eUEcRurM/preview' },
-                { name: 'Prévia - Guerra Artoniana - Jornada Heroica', url: 'https://drive.google.com/file/d/11iMYa8S9S1iOu4dzWH13fQlD5VZZnkHR/preview' }
+                { name: 'T20 Só Aventuras', url: 'https://drive.google.com/file/d/1vfkzjGeQpX_ztrYnlzerhwu1COPK87QO/preview' },
+                { name: 'T20 - Atlas de Arton', url: 'https://drive.google.com/file/d/1XBCB9B4WHvD-hWFuY8mNPmmPNlyK9IfF/preview' },
+                { name: 'T20 - Ameaças de Arton', url: 'https://drive.google.com/file/d/1PqqlBqLP5bXxrqy6BBQ8K-EAXBtr2LyC/preview' },
+                { name: 'T20 - Guia de NPCs', url: 'https://drive.google.com/file/d/1bgNeKsxMahMfVtZwfCDGauSy13JqfkhD/preview' },
+                { name: 'Fim dos Tempos Arco 1', url: 'https://drive.google.com/file/d/1-AJlHz66SphDKBEzouTGTmrRcCHoQln4/preview' },
+                { name: 'T20 -Coração de Rubi', url: 'https://drive.google.com/file/d/1BvfrxL2_Vh0KJEOIL_Jzwse_pkApCLG1/preview' },
+                { name: 'Prévia - Deuses e Heróis', url: 'https://drive.google.com/file/d/1Z-FwP4KOUNN3X8ayHr4jV-Bag3FaIye1/preview' },
+                { name: 'Guerra Artoniana - Jornada Heroica', url: 'https://drive.google.com/file/d/11rWeQ4I_yP4iy1BLqGILjfQbwykU_1gc/preview' }
             ]
 
         };
@@ -201,7 +206,7 @@
         // Função para carregar o PDF e a URL de download
         function loadPdf(index) {
             const selectedPdf = revistas[currentCategory][index];
-            pdfViewer.src = selectedPdf.url;
+            pdfpreviewer.src = selectedPdf.url;
             pdfName.textContent = selectedPdf.name;
             downloadButton.href = selectedPdf.downloadUrl;
         }
